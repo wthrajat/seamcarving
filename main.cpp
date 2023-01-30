@@ -10,18 +10,20 @@ int main( int argc, char** argv ){
         return -1;
     }
 
-    // Load the input image
-    // the image should be a 3 channel image by default but we will double check that in the seam_carving
+    /* Load the image and it should be a 3 channel image by default but we will double check that in the seam_carving
+     3 Channel image: RGB pics are 3 channels
+     Grayscales pics are single (1) channel */
+
     Mat in_image;
     in_image = imread(argv[1]/*, CV_LOAD_IMAGE_COLOR*/);
 
     if(!in_image.data){
-        cout<<"Could not load input image!!!"<<endl;
+        cout<<"Input image could NOT be loaded! :("<<endl;
         return -1;
     }
 
     if(in_image.channels()!=3){
-        cout<<"Image does not have 3 channels!!! "<<in_image.depth()<<endl;
+        cout<<"The input image is NOT a 3-channel image! :("<<in_image.depth()<<endl;
         return -1;
     }
 
@@ -41,12 +43,12 @@ int main( int argc, char** argv ){
         return -1;
     }
 
-    // write it on disk
+    // Write to the disk
     imwrite( argv[4], out_image);
 
-    namedWindow( "Original image", WINDOW_AUTOSIZE );
+    namedWindow("Original Image", WINDOW_AUTOSIZE );
     namedWindow( "Seam Carved Image", WINDOW_AUTOSIZE );
-    imshow( "Original image", in_image );
+    imshow( "Original Image", in_image );
     imshow( "Seam Carved Image", out_image );
     waitKey(0);
     return 0;

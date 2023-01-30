@@ -9,25 +9,25 @@ using namespace std;
 bool validation(int rows, int cols,int newWidth,int newHeight){
 
     if(newWidth>cols){
-        cout<<"Invalid request!!! new Width has to be smaller than the current size!"<<endl;
+        cout<<"Error! newWidth has to be smaller than the current size!"<<endl;
         return false;
     }
     if(newHeight>rows){
-        cout<<"Invalid request!!! new Height has to be smaller than the current size!"<<endl;
+        cout<<"Error! newHeight has to be smaller than the current size!"<<endl;
         return false;
     }
     if(newWidth<=0){
-        cout<<"Invalid request!!! newWidth has to be positive!"<<endl;
+        cout<<"Error! newWidth has to be positive!"<<endl;
         return false;
     }
     if(newHeight<=0){
-        cout<<"Invalid request!!! newHeight has to be positive!"<<endl;
+        cout<<"Error! newHeight has to be positive!"<<endl;
         return false;
     }
 	return true;
 }
 
-// seam carves by removing trivial seams
+// Here we remove trivial seam
 bool seam_carving_trivial(Mat& inImage, Mat& outImage, int newWidth, int newHeight){
 
     Mat iimage = inImage.clone();
@@ -37,13 +37,13 @@ bool seam_carving_trivial(Mat& inImage, Mat& outImage, int newWidth, int newHeig
 
 	 if(iimage.rows>newHeight){
 		reduce_horizontal_seam_trivial(iimage, oimage);
-	    cout<<"Horizontal Seam Removed, New height is "<<oimage.rows<<endl;
+	    cout<<"Horizontal Seam is Now Removed! New height is "<<oimage.rows<<endl;
 		iimage = oimage.clone();
         }
 
         if(iimage.cols>newWidth){
     	reduce_vertical_seam_trivial(iimage, oimage);
-	    cout<<"Vertical Seam Removed, New Width is "<<oimage.cols<<endl;
+	    cout<<"Vertical Seam is Now Removed, New Width is "<<oimage.cols<<endl;
         iimage = oimage.clone();
      }
     }
@@ -52,31 +52,31 @@ bool seam_carving_trivial(Mat& inImage, Mat& outImage, int newWidth, int newHeig
     return true;
 }
 
-double findPixelEnergy(Mat& inImage,int i,int j)
-{    Vec3b pixelNx, pixelNy;
-	 Vec3b pixelPx, pixelPy;
-     int rows = inImage.rows;
-     int cols = inImage.cols;
+double findPixelEnergy(Mat& inImage,int i,int j) {
+	Vec3b pixelNx, pixelNy;
+	Vec3b pixelPx, pixelPy;
+    int rows = inImage.rows;
+    int cols = inImage.cols;
 
-	//pixel (x + 1, y) 	N-Next	 X gradient
+	//	pixel (x + 1, y) 	N-Next	 X gradient
      if(i!=rows-1)
 	     pixelNx  = inImage.at<Vec3b>(i+1, j);
 	else
 	     pixelNx  = inImage.at<Vec3b>(0, j);
 
-	//pixel (x, y+1) 	N-Next	 Y gradient
+	//	pixel (x, y+1) 	N-Next	 Y gradient
 	if(j!=cols-1)
          pixelNy  = inImage.at<Vec3b>(i, j+1);
     else
          pixelNy  = inImage.at<Vec3b>(i, 0);
 
-	//pixel (x − 1, y)  P-Previous X gradient
+	//	pixel (x − 1, y)  P-Previous X gradient
 	if(i!=0)
 		pixelPx  = inImage.at<Vec3b>(i-1, j);
 	else
 		pixelPx  = inImage.at<Vec3b>(rows-1, j);
 
-	//pixel (x − 1, y)  P-Previous  Y gradient
+	//	pixel (x − 1, y)  P-Previous  Y gradient
     if (j!=0)
 	      pixelPy  = inImage.at<Vec3b>(i, j-1);
     else
@@ -88,7 +88,7 @@ double findPixelEnergy(Mat& inImage,int i,int j)
 	   return xGradient + yGradient;
 }
 
-// horizontl trivial seam is a seam through the center of the image
+// Note that Horizontal trivial seam = seam through the center of the image
  bool reduce_horizontal_seam_trivial(Mat& inImage, Mat& outImage){
 
 	int cols = inImage.cols;
@@ -100,7 +100,7 @@ double findPixelEnergy(Mat& inImage,int i,int j)
 
 	int prevPixelEnergy = 0,i,j,k;
 
-   //Cumulative energy
+   //Cumulative energy calculation, read more at https://cs.brown.edu/courses/cs129/results/proj3/taox/
     for(j=0;j<cols;++j)
      for(i=0;i<rows;++i){
        pixelEnergy = findPixelEnergy(inImage,i,j);
@@ -118,7 +118,7 @@ double findPixelEnergy(Mat& inImage,int i,int j)
 
 	int minEnergyPixel = cumulativeEnergy[0][cols-1], horizontalSeamX = 0;
 
-	//Find optimal Horizontal Seam
+	//	Optimal Horizontal Seam
  	 for(j=1;j<rows;j++)
 		  {  if (minEnergyPixel > cumulativeEnergy[j][cols-1])
 			  { minEnergyPixel = cumulativeEnergy[j][cols-1];
@@ -153,7 +153,7 @@ double findPixelEnergy(Mat& inImage,int i,int j)
        horizontalSeamValues[j-1] = horizontalSeamX;
 	}
 
-	 // create an image slighly smaller
+	 // Creating a relatively smaller image
     outImage.create(rows-1, cols, CV_8UC3);
 
 	int iPrev,jPrev;
@@ -176,20 +176,21 @@ double findPixelEnergy(Mat& inImage,int i,int j)
     return true;
 }
 
-// vertical trivial seam is a seam through the center of the image
+// Vertical trivial seam = seam through the center of the image
 bool reduce_vertical_seam_trivial(Mat& inImage, Mat& outImage){
-    // retrieve the dimensions of the image
+
     int rows = inImage.rows;
     int cols = inImage.cols;
     double  pixelEnergy = 0;
     vector<vector<int> > cumulativeEnergy;
 	cumulativeEnergy.resize(rows,vector<int>(cols));
 	int prevPixelEnergy = 0, i,j,k;
+	
+	// Creating a relatively smaller image
 
-   // create an image slighly smaller
 	outImage.create(rows, cols-1, CV_8UC3);
 
-   // Cumulative energy
+   // Cumulative energy calc
    for(i=0;i<rows;++i)
     for(j=0;j<cols;++j){
        pixelEnergy = findPixelEnergy(inImage,i,j);
@@ -219,7 +220,7 @@ bool reduce_vertical_seam_trivial(Mat& inImage, Mat& outImage){
 	vector<int> verticalSeamValues(rows);
 	verticalSeamValues[rows-1] = verticalSeamY;
 
-	//save the pixels of the optimal path
+	//	Saving the pixels of the optimal path
 	for(i = rows-1;i>0;i--){
 	  if(verticalSeamY == 0)
 	   {  if(cumulativeEnergy[i-1][verticalSeamY] > cumulativeEnergy[i-1][verticalSeamY+1])
