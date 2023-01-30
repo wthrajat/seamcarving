@@ -3,7 +3,7 @@
 
 // #include "PNM.h"
 
-// #include "slimming.h"
+#include "slimming.h"
 
 // /.
 //  * If the given pixel is outside of the borders, will return the closest border
@@ -239,13 +239,21 @@
 //     if (i >= image->height) i = image->height - 1;
 //     if (j >= image->width) j = image->width - 1;
 
-//     PNMPixel* pixel = image->data + i * image->width + j;
-//     switch (color) {
-//         case 0:
-//             return pixel->red;
-//         case 1:
-//             return pixel->green;
-//         default:
-//             return pixel->blue;
-//     }
-// }
+    return energy;
+}
+
+static unsigned char pixel_value(const PNMImage* image, size_t i, size_t j,
+                                 size_t color) {
+    if (i >= image->height) i = image->height - 1;
+    if (j >= image->width) j = image->width - 1;
+
+    PNMPixel* pixel = image->data + i * image->width + j;
+    switch (color) {
+        case 0:
+            return pixel->red;
+        case 1:
+            return pixel->green;
+        default:
+            return pixel->blue;
+    }
+}
