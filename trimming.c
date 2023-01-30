@@ -3,7 +3,7 @@
 
 #include "PNM.h"
 
-#include "slimming.h"
+#include "slimming.h" // trimming.h
 
 /**
  * Calculates and returns the minimum energy path in the given energy 2D array.
