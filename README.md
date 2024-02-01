@@ -38,6 +38,8 @@ After compilation, this will build an executable `"seam_carving"` at `./build/ap
 ```rust
 <input_image> : image_name.extension
 
+<number of seams> : integer
+
 <direction> : 'h'(horizontally) OR 'v'(vertically)
 
 <mode> : 'r' OR 'p'
