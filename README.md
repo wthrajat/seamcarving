@@ -52,7 +52,7 @@ After compilation, this will build an executable `"seam_carving"` at `./build/ap
 
 
 ```rust
-./build/app/seam_carving assets/tower.jpg v 300
+./build/app/seam_carving assets/ronaldo.jpeg v 300
 ```
 Resized | Original
 --- | ---
