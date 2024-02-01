@@ -18,7 +18,7 @@ void PrintUsage() {
 
 int main(int argc, char **argv) {
   if (argc != 4 && argc != 9) {
-    std::cout << "Wrong number of arguments! Consider seeing the usage as follows" << endl;
+    cout << "Wrong arguments! Please check how to use the executable! ;-)" << endl;
     PrintUsage();
     return 1;
   }

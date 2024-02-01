@@ -4,9 +4,10 @@
 Read the paper at:
 - [Original paper](https://perso.crans.org/frenoy/matlab2012/seamcarving.pdf)
 - [ACM Digital Library](https://dl.acm.org/doi/10.1145/1275808.1276390)
+
 ## Dependencies
 
-Make sure to install the following minimal dependencies to avoid build errors:
+Make sure to install the following dependencies to avoid build errors:
 - [Glew](https://archlinux.org/packages/extra/x86_64/glew/)
 - [lib32-glew](https://archlinux.org/packages/multilib/x86_64/lib32-glew/)
 - [CMake](https://cmake.org/download/)
@@ -19,13 +20,13 @@ git clone https://github.com/wthrajat/seamcarving.git
 cd seamcarving && mkdir build && cd build && cmake .. && make
 ```
 After compilation, this will build an executable `"seam_carving"` at `./build/app/`:
-```sh
-./build/app/seam_carving
+```py
+./build/app/seam_carving # Executable file
 ```
 
 ## Usage
 
-```sh
+```console
 ./build/app/seam_carving <input_image> <direction> <number of seams> <mode> <x> <y> <w> <h>
 
 # OR
@@ -34,20 +35,25 @@ After compilation, this will build an executable `"seam_carving"` at `./build/ap
 
 ```
 
-## Format of arguments
+## Arguments
 ```rust
-<input_image> : image_name.extension
+<input_image> : image_name.extension [required]
 
-<number of seams> : integer
+<direction> : 'h' OR 'v' [required]
+    'h' for horizontal seam removal
+    'w' for vertical seam removal
 
-<direction> : 'h'(horizontally) OR 'v'(vertically)
+<number of seams> : integer [required]
 
-<mode> : 'r' OR 'p'
-'r' for removal
-'p' for protection
+<mode> : 'r' OR 'p' [optional]
+    'r' for removal
+    'p' for protection
 
-<x> <y> <w> <h> : Specifies the region of interest
-
+<x> <y> <w> <h> : Specifies the Region of Interest [optional]
+    'x' X-coordinate
+    'y' Y-coordinatew
+    'w' Width of the ROI
+    'h' Height of the ROI
 ```
 
 ## Examples
