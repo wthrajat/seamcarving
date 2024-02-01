@@ -15,8 +15,8 @@ Make sure to install the following minimal dependencies to avoid build errors:
 ## Build
 
 ```sh
-git clone https://github.com/wthrajat/seam-carving.git
-cd seam-carving && mkdir build && cd build && cmake .. && make
+git clone https://github.com/wthrajat/seamcarving.git
+cd seamcarving && mkdir build && cd build && cmake .. && make
 ```
 After compilation, this will build an executable `"seam_carving"` at `./build/app/`:
 ```sh
